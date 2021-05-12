@@ -6,13 +6,13 @@ import { Animator, ScrollContainer, ScrollPage, batch, Fade, Move, Sticky } from
 
 function App() {
   const [joke, setJoke] = useState([])
-  const [top, setTop] = useState(true)
+  const [top, setTop] = useState(false)
   const [bottom, setBottom] = useState(false)
+  const [start, setStart] = useState(true)
 
   const handleScroll = () => {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
     const top = window.pageYOffset === 0
-
     if (top) setTop(true)
     else setTop(false)
     if (bottom) setBottom(true)
@@ -22,15 +22,34 @@ function App() {
   const getJoke = async () => {
     await axios.get('https://official-joke-api.appspot.com/random_joke').then((res) => {
       setJoke({ setup: res.data.setup, punchline: res.data.punchline })
-      console.log(joke)
     })
   }
 
-  useEffect(async () => {
-    await getJoke().then(
+  useEffect(() => {
+    async function fetchData() {
+      if (start) {
+        await getJoke().then(() => {
+          document.querySelector('#setup').innerHTML = joke.setup
+          document.querySelector('#punchline').innerHTML = joke.punchline
+          setStart(false)
+          console.log(joke)
+        })
 
-    )
-  }, [top], [bottom])
+      }
+      else if (top) {
+        document.querySelector('#punchline').innerHTML = joke.punchline
+      }
+      else if (bottom) {
+        await getJoke().then(() => {
+          document.querySelector('#setup').innerHTML = joke.setup
+        })
+
+      }
+    }
+    fetchData()
+
+  }, [top, bottom, start])
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, {
       passive: true
@@ -47,15 +66,13 @@ function App() {
       <ScrollContainer>
         <ScrollPage page={0}>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "40px" }}></span>
+            <span id="setup" style={{ fontSize: "40px" }}></span>
           </Animator>
         </ScrollPage>
-        <ScrollPage page={1}>
-
-        </ScrollPage>
+        <ScrollPage page={1} />
         <ScrollPage page={2}>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "40px" }}></span>
+            <span id="punchline" style={{ fontSize: "40px" }}></span>
           </Animator>
         </ScrollPage>
       </ScrollContainer >
