@@ -21,29 +21,28 @@ function App() {
 
   const getJoke = async () => {
     await axios.get('https://official-joke-api.appspot.com/random_joke').then((res) => {
+      if (start) {
+        document.querySelector('#setup').innerHTML = res.data.setup
+        document.querySelector('#punchline').innerHTML = res.data.punchline
+        setStart(false)
+      }
       setJoke({ setup: res.data.setup, punchline: res.data.punchline })
     })
   }
-
   useEffect(() => {
     async function fetchData() {
       if (start) {
-        await getJoke().then(() => {
-          document.querySelector('#setup').innerHTML = joke.setup
-          document.querySelector('#punchline').innerHTML = joke.punchline
-          setStart(false)
-          console.log(joke)
-        })
-
+        await getJoke()
       }
       else if (top) {
+        console.log('top')
         document.querySelector('#punchline').innerHTML = joke.punchline
       }
       else if (bottom) {
+        console.log('bottom')
         await getJoke().then(() => {
           document.querySelector('#setup').innerHTML = joke.setup
         })
-
       }
     }
     fetchData()
