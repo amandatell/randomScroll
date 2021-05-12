@@ -1,21 +1,36 @@
 import logo from './logo.svg';
 import { useState, useEffect } from 'react'
 import './App.css';
+import axios from 'axios'
 import { Animator, ScrollContainer, ScrollPage, batch, Fade, Move, Sticky } from "react-scroll-motion";
 
 function App() {
+  const [joke, setJoke] = useState([])
+  const [top, setTop] = useState(true)
+  const [bottom, setBottom] = useState(false)
 
   const handleScroll = () => {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
     const top = window.pageYOffset === 0
 
-    if (bottom) {
-      console.log('at the bottom');
-    }
-    else if (top)
-      console.log('at the top');
+    if (top) setTop(true)
+    else setTop(false)
+    if (bottom) setBottom(true)
+    else setBottom(false)
   }
 
+  const getJoke = async () => {
+    await axios.get('https://official-joke-api.appspot.com/random_joke').then((res) => {
+      setJoke({ setup: res.data.setup, punchline: res.data.punchline })
+      console.log(joke)
+    })
+  }
+
+  useEffect(async () => {
+    await getJoke().then(
+
+    )
+  }, [top], [bottom])
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, {
       passive: true
@@ -32,7 +47,7 @@ function App() {
       <ScrollContainer>
         <ScrollPage page={0}>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "40px" }}>Up</span>
+            <span style={{ fontSize: "40px" }}></span>
           </Animator>
         </ScrollPage>
         <ScrollPage page={1}>
@@ -40,7 +55,7 @@ function App() {
         </ScrollPage>
         <ScrollPage page={2}>
           <Animator animation={FadeUp}>
-            <span style={{ fontSize: "40px" }}>Down⛅️</span>
+            <span style={{ fontSize: "40px" }}></span>
           </Animator>
         </ScrollPage>
       </ScrollContainer >
