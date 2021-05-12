@@ -14,38 +14,33 @@ function App() {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
     const top = window.pageYOffset === 0
     if (top) setTop(true)
-    else setTop(false)
     if (bottom) setBottom(true)
-    else setBottom(false)
   }
 
   const getJoke = async () => {
-    await axios.get('https://official-joke-api.appspot.com/random_joke').then((res) => {
+    return await axios.get('https://official-joke-api.appspot.com/random_joke')
+  }
+  useEffect(() => {
+    const showLine = async () => {
       if (start) {
+        let res = await getJoke()
         document.querySelector('#setup').innerHTML = res.data.setup
         document.querySelector('#punchline').innerHTML = res.data.punchline
         setStart(false)
-      }
-      setJoke({ setup: res.data.setup, punchline: res.data.punchline })
-    })
-  }
-  useEffect(() => {
-    async function fetchData() {
-      if (start) {
-        await getJoke()
-      }
-      else if (top) {
-        console.log('top')
-        document.querySelector('#punchline').innerHTML = joke.punchline
+        setJoke({ setup: res.data.setup, punchline: res.data.punchline })
       }
       else if (bottom) {
-        console.log('bottom')
-        await getJoke().then(() => {
-          document.querySelector('#setup').innerHTML = joke.setup
-        })
+        let res = await getJoke()
+        document.querySelector('#setup').innerHTML = res.data.setup
+        setBottom(false)
+        setJoke({ setup: res.data.setup, punchline: res.data.punchline })
+      }
+      else if (top) {
+        document.querySelector('#punchline').innerHTML = joke.punchline
+        setTop(false)
       }
     }
-    fetchData()
+    showLine()
 
   }, [top, bottom, start])
 
