@@ -1,24 +1,49 @@
 import logo from './logo.svg';
+import { useState, useEffect } from 'react'
 import './App.css';
+import { Animator, ScrollContainer, ScrollPage, batch, Fade, FadeIn, Move, MoveIn, MoveOut, Sticky, StickyIn, ZoomIn } from "react-scroll-motion";
 
 function App() {
+  const handleScroll = () => {
+
+    const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
+    const top = window.pageYOffset === 0
+
+    if (bottom) {
+      console.log('at the bottom');
+    }
+    if (top)
+      console.log('at the top');
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, {
+      passive: true
+    });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
+  const FadeUp = batch(Fade(), Move(), Sticky());
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="App container">
+      <ScrollContainer>
+        <ScrollPage page={0}>
+          <Animator animation={FadeUp}>
+            <span style={{ fontSize: "40px" }}>Up</span>
+          </Animator>
+        </ScrollPage>
+        <ScrollPage page={1}>
+
+        </ScrollPage>
+        <ScrollPage page={2}>
+          <Animator animation={FadeUp}>
+            <span style={{ fontSize: "40px" }}>Down⛅️</span>
+          </Animator>
+        </ScrollPage>
+      </ScrollContainer >
+    </div >
   );
 }
 
