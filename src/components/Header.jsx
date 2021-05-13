@@ -9,8 +9,7 @@ export const Header = () => {
         getTooltipProps,
         setTooltipRef,
         setTriggerRef,
-        visible,
-        placement
+        visible
     } = usePopperTooltip();
 
     return (
