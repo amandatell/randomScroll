@@ -16,6 +16,7 @@ const App = () => {
   const red = '#db7070'
   const blue = '#7099db'
 
+  // Checks if user is at top or bottom of page
   const handleScroll = () => {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
     const top = window.pageYOffset === 0
@@ -32,6 +33,8 @@ const App = () => {
   const getJoke = async () => {
     return await axios.get('https://official-joke-api.appspot.com/random_joke')
   }
+
+  // Sets the new joke
   useEffect(() => {
     const showLine = async () => {
       if (start) {

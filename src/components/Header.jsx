@@ -4,6 +4,8 @@ import 'react-popper-tooltip/dist/styles.css';
 import { Button } from 'react-bootstrap';
 
 export const Header = () => {
+
+    // Tooltip
     const {
         getArrowProps,
         getTooltipProps,
@@ -20,8 +22,7 @@ export const Header = () => {
             {visible && (
                 <div
                     ref={setTooltipRef}
-                    {...getTooltipProps({ className: 'tooltip-container' })}
-                >
+                    {...getTooltipProps({ className: 'tooltip-container' })}>
                     <div {...getArrowProps({ className: 'tooltip-arrow' })} />
                     <p>Scroll to see the punchline. Once you reach the bottom a new joke with generate.</p>
                     <p><em>Not working?</em> Make you you scroll all the way to the bottom until the background gets red,</p>
