@@ -25,8 +25,9 @@ export const Header = () => {
                 >
                     <div {...getArrowProps({ className: 'tooltip-arrow' })} />
                     <p>Scroll to see the punchline. Once you reach the bottom a new joke with genererate.</p>
-                    <p>Not working? Make you you scroll all the way to the bottom, then all the way to the top allowing it to reset.
-                    </p>
+                    <p><em>Not working?</em> Make you you scroll all the way to the bottom until the background gets red,</p>
+                    <p>then all the way to the top until the background gets blue again to allow it to reset.</p>
+                    <p><b>Have fun!</b></p>
                 </div>
             )}
 

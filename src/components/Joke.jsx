@@ -4,7 +4,7 @@ export const Joke = ({ id }) => {
     const FadeUp = batch(Fade(), Move(), Sticky());
     return (
         <Animator animation={FadeUp}>
-            <span id={id} style={{ fontSize: "40px" }}></span>
+            <span id={id}></span>
         </Animator>
     )
 }

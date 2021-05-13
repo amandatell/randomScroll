@@ -3,8 +3,18 @@
   color: white;
 }
 
+#setup, #punchline {
+  font-size: 3em;
+}
+
 .btn-link {
   color: white !important;
   background-color: transparent !important;
   border: none !important;
+}
+
+@media screen and (max-width: 700px) {
+  #setup, #punchline {
+    font-size: 2em;
+  }
 }
