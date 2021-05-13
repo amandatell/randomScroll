@@ -10,11 +10,13 @@ export const Header = () => {
         setTooltipRef,
         setTriggerRef,
         visible,
+        placement
     } = usePopperTooltip();
+
     return (
         <div className='d-flex justify-content-center'>
-            <h1 className="mt-5">Scroll a joke!</h1> <Button className="btn btn-link" style={{ backgroundColor: "white", color: 'black', border: 'none' }} ref={setTriggerRef}>
-                <FiHelpCircle className="mt-5" size={32} />
+            <h1 className="mt-5">Scroll a joke!</h1> <Button className="btn btn-link mt-5 mx-1" ref={setTriggerRef}>
+                <FiHelpCircle size={32} />
             </Button>
             {visible && (
                 <div
@@ -22,7 +24,9 @@ export const Header = () => {
                     {...getTooltipProps({ className: 'tooltip-container' })}
                 >
                     <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                    <p>Tooltip</p>
+                    <p>Scroll to see the punchline. Once you reach the bottom a new joke with genererate.</p>
+                    <p>Not working? Make you you scroll all the way to the bottom, then all the way to the top allowing it to reset.
+                    </p>
                 </div>
             )}
 

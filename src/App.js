@@ -13,11 +13,20 @@ const App = () => {
   const [bottom, setBottom] = useState(false)
   const [start, setStart] = useState(true)
 
+  const red = '#db7070'
+  const blue = '#7099db'
+
   const handleScroll = () => {
     const bottom = Math.ceil(window.innerHeight + window.scrollY) === document.documentElement.scrollHeight
     const top = window.pageYOffset === 0
-    if (top) setTop(true)
-    if (bottom) setBottom(true)
+    if (top) {
+      setTop(true)
+      document.body.style.backgroundColor = blue;
+    }
+    if (bottom) {
+      setBottom(true)
+      document.body.style.backgroundColor = red;
+    }
   }
 
   const getJoke = async () => {
@@ -26,6 +35,7 @@ const App = () => {
   useEffect(() => {
     const showLine = async () => {
       if (start) {
+        document.body.style.backgroundColor = blue;
         let res = await getJoke()
         document.querySelector('#setup').innerHTML = res.data.setup
         document.querySelector('#punchline').innerHTML = res.data.punchline
@@ -58,9 +68,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App container">
-
-
+    <div className="container">
       <ScrollContainer>
         <ScrollPage page={0}>
           <Header />
