@@ -1,25 +1,12 @@
 import { useState, useEffect } from 'react'
 import './App.css';
 import axios from 'axios'
-import { Animator, ScrollContainer, ScrollPage, batch, Fade, Move, Sticky } from "react-scroll-motion";
-import { FiHelpCircle } from 'react-icons/fi';
-import { usePopperTooltip } from 'react-popper-tooltip';
-import 'react-popper-tooltip/dist/styles.css';
+import { Header } from './components/Header'
+import { Joke } from './components/Joke'
+import { ScrollContainer, ScrollPage } from "react-scroll-motion";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-/*
-
-IMPORT BUTTON FROM REACT BOOSTRAP
-PUT IN AN COMPONENT
-
-*/
-function App() {
-  const {
-    getArrowProps,
-    getTooltipProps,
-    setTooltipRef,
-    setTriggerRef,
-    visible,
-  } = usePopperTooltip();
+const App = () => {
 
   const [joke, setJoke] = useState([])
   const [top, setTop] = useState(false)
@@ -70,35 +57,19 @@ function App() {
     };
   }, []);
 
-  const FadeUp = batch(Fade(), Move(), Sticky());
   return (
     <div className="App container">
 
 
       <ScrollContainer>
         <ScrollPage page={0}>
-          <h1>Scroll a joke! <button type="button" ref={setTriggerRef}>
-            <FiHelpCircle />
-          </button>
-            {visible && (
-              <div
-                ref={setTooltipRef}
-                {...getTooltipProps({ className: 'tooltip-container' })}
-              >
-                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-          Tooltip
-              </div>
-            )}
-          </h1>
-          <Animator animation={FadeUp}>
-            <span id="setup" style={{ fontSize: "40px" }}></span>
-          </Animator>
+          <Header />
+          <Joke id={"setup"} />
         </ScrollPage>
         <ScrollPage page={1} />
         <ScrollPage page={2}>
-          <Animator animation={FadeUp}>
-            <span id="punchline" style={{ fontSize: "40px" }}></span>
-          </Animator>
+          <Joke id={"setup"} />
+          <Joke id={"punchline"} />
         </ScrollPage>
       </ScrollContainer >
     </div >
